@@ -1,0 +1,46 @@
+ssh_groups:
+  frontend:
+    - frontend_user1
+    - frontend_user2
+    - frontend_user3
+    - frontend_user4
+
+  backend:
+    - backend_user1
+    - backend_user2
+    - backend_user3
+    - backend_user4
+
+  devops:
+    - devops_user1
+    - devops_user2
+    - devops_user3
+    - devops_user4
+
+  access:
+    - access_user1
+    - access_user2
+    - access_user3
+    - access_user4
+
+
+ssh_users:
+  frontend_user1: "ssh-ed25519 AAAA1111 frontend_user1@company"
+  frontend_user2: "ssh-ed25519 AAAA1112 frontend_user2@company"
+  frontend_user3: "ssh-ed25519 AAAA1113 frontend_user3@company"
+  frontend_user4: "ssh-ed25519 AAAA1114 frontend_user4@company"
+
+  backend_user1: "ssh-rsa AAAA2221 backend_user1@company"
+  backend_user2: "ssh-rsa AAAA2222 backend_user2@company"
+  backend_user3: "ssh-rsa AAAA2223 backend_user3@company"
+  backend_user4: "ssh-rsa AAAA2224 backend_user4@company"
+
+  devops_user1: "ssh-ed25519 AAAA3331 devops_user1@company"
+  devops_user2: "ssh-ed25519 AAAA3332 devops_user2@company"
+  devops_user3: "ssh-ed25519 AAAA3333 devops_user3@company"
+  devops_user4: "ssh-ed25519 AAAA3334 devops_user4@company"
+
+  access_user1: "ssh-ed25519 AAAA4441 access_user1@company"
+  access_user2: "ssh-ed25519 AAAA4442 access_user2@company"
+  access_user3: "ssh-ed25519 AAAA4443 access_user3@company"
+  access_user4: "ssh-ed25519 AAAA4444 access_user4@company"

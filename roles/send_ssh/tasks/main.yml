@@ -1,0 +1,46 @@
+---
+- name: Definir usuário alvo
+  set_fact:
+    ssh_target_user: "{{ ansible_user | default('root') }}"
+
+- name: Definir grupo e home
+  set_fact:
+    ssh_target_group: "{{ ssh_target_user }}"
+    ssh_target_home: >-
+      {{ '/root' if ssh_target_user == 'root'
+         else '/home/' ~ ssh_target_user }}
+
+- name: Validar que ssh_allowed_groups está definido
+  ansible.builtin.assert:
+    that:
+      - ssh_allowed_groups is defined
+    fail_msg: "Defina ssh_allowed_groups no inventory para este host."
+
+- name: Validar que grupos existem em ssh_groups
+  ansible.builtin.assert:
+    that:
+      - item in ssh_groups
+    fail_msg: "Grupo {{ item }} não existe em ssh_groups"
+  loop: "{{ ssh_allowed_groups }}"
+
+- name: Garantir diretório .ssh
+  ansible.builtin.file:
+    path: "{{ ssh_target_home }}/.ssh"
+    state: directory
+    owner: "{{ ssh_target_user }}"
+    group: "{{ ssh_target_group }}"
+    mode: "0700"
+
+- name: Gerenciar bloco de SSH por grupo
+  ansible.builtin.blockinfile:
+    path: "{{ ssh_target_home }}/.ssh/authorized_keys"
+    create: yes
+    owner: "{{ ssh_target_user }}"
+    group: "{{ ssh_target_group }}"
+    mode: "0600"
+    marker: "# {mark} ANSIBLE MANAGED SSH KEYS - {{ item }}"
+    block: |
+      {% for user in ssh_groups[item] %}
+      {{ ssh_users[user] }}
+      {% endfor %}
+  loop: "{{ ssh_allowed_groups }}"
