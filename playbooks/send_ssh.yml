@@ -1,0 +1,8 @@
+---
+- name: Distribuir chaves SSH
+  hosts: "{{ HOSTS | default('all') }}"
+  become: true
+  gather_facts: false
+
+  roles:
+    - send_ssh
